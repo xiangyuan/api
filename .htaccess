@@ -1,0 +1,16 @@
+Options +FollowSymLinks
+RewriteEngine On
+#example 1 failed
+#ServerSignature Off
+#RewriteCond %{REQUEST_METHOD} ^(HEAD|DELETE|TRACE|TRACK) [NC,OR]
+#RewriteCond %{THE_REQUEST} (\\r|\\n|%0A|%0D) [NC,OR]
+### example 2 failed
+#RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK|OPTIONS|HEAD)
+#RewriteRule .* - [F]
+
+#### This is success ####
+<LimitExcept GET POST PUT DELETE>
+  Order Allow,Deny
+  Deny from all
+</LimitExcept>
+RewriteRule ^(.*)$ index.php [NC,L]
