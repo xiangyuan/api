@@ -43,5 +43,13 @@ $configs = array(
         'action'=>'edit_user',
         'method'=>'POST',
         'name'=>'u_edit',
+    ),
+    array(
+        'uri'=>"/short/:url",
+        'target'=>'ShortAction',
+        'action'=>'short_url',
+        'method'=>'GET',
+        'name'=>'short_url',
     )
+
 );

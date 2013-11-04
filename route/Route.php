@@ -58,7 +58,7 @@ class Route
         $this->rule = $rule;
         $this->name = $name;
         $regex = preg_replace_callback('@:[\w]+@', function ($matches){
-            return '([a-zA-Z0-9_\+\-%]+)';
+            return '([a-zA-Z0-9_\+\.\-%]+)';
         }, $rule);
         $regex .= '/?';
         // Store the regex used to match this pattern.
