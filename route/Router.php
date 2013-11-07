@@ -85,8 +85,9 @@ class Router
         if($this->matchRout($url_path)) {
             // execute method
             $rmethod = $this->curRoute->getMethod();
-            $contentType = getallheaders()['Content-type'];
-            if($contentType != 'application/json') {
+            $headers = getallheaders();
+            $contentType = $headers["Content-Type"];
+            if(strcmp($contentType,'application/json') == 0) {
 //                parse_str(file_get_contents("php://input"),$post_vars);
 //                print_r($post_vars);
                 $datas = json_decode(file_get_contents("php://input"));
