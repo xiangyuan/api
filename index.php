@@ -10,6 +10,7 @@ ini_set("display_errors",1);
 
 require("route/Router.php");
 
+header('Content-type:application/json');
 //print $_SERVER['QUERY_STRING']."<br>";
 //print $_SERVER['REQUEST_URI'] ."<br>";
 

@@ -21,6 +21,8 @@ class Router
 
     public $curRoute;
 
+    private $baseURL = '/api';
+
     /**
      * default request methods
      * @var array
@@ -51,7 +53,7 @@ class Router
                 $name = $troute["name"];
                 if (empty($this->cachedRoutes[$name])) {
                     $method = $troute["method"];
-                    $uri = $troute["uri"];
+                    $uri = $this->baseURL.$troute["uri"];
                     $target = $troute["target"];
                     $action = $troute["action"];
                     $filters = $troute['filters'];
@@ -76,30 +78,49 @@ class Router
     {
         $url_path = $_SERVER["REQUEST_URI"];
         $method = $_SERVER["REQUEST_METHOD"];
+
         if(($pos = strpos($url_path,"?")) !== false) {
             $url_path = substr($url_path,0,$pos);
         }
         if($this->matchRout($url_path)) {
             // execute method
-            if(strcmp($method,'GET') == 0) {
-                $str = $_SERVER['QUERY_STRING'];
-                parse_str($str,$attr);
-                $arr = $this->curRoute->getParams();
-                $arr = array_merge($arr,$attr);
-                $this->curRoute->setParams($arr);
-            }
-            //invoke the specify action
-            $target = $this->curRoute->getTarget();
-            $action = $this->curRoute->getAction();
-            $params = $this->curRoute->getParams();
-            if(!class_exists($target,true)) {
-                throw new \Exception("Class '$target' does not exist.");
-            } else {
-                if(!empty($params)) {
-                    $_GET = array_merge($_GET,$this->curRoute->getParams());
+            $rmethod = $this->curRoute->getMethod();
+            $contentType = getallheaders()['Content-type'];
+            if($contentType != 'application/json') {
+//                parse_str(file_get_contents("php://input"),$post_vars);
+//                print_r($post_vars);
+                $datas = json_decode(file_get_contents("php://input"));
+//                print_r(get_object_vars($datas));exit;
+                if(strcmp($method,$rmethod) == 0) {
+                    if(strcmp($method,'GET') == 0) {
+                        $str = $_SERVER['QUERY_STRING'];
+                        parse_str($str,$attr);
+                        $arr = $this->curRoute->getParams();
+                        $arr = array_merge($arr,$attr);
+                        $this->curRoute->setParams($arr);
+                    } elseif (!empty($datas)) {
+                        $arr = $this->curRoute->getParams();
+                        $arr = array_merge($arr,get_object_vars($datas));
+                        $this->curRoute->setParams($arr);
+                    }
+                    //invoke the specify action
+                    $target = $this->curRoute->getTarget();
+                    $action = $this->curRoute->getAction();
+                    $params = $this->curRoute->getParams();
+                    if(!class_exists($target,true)) {
+                        throw new \Exception("Class '$target' does not exist.");
+                    } else {
+                        if(!empty($params)) {
+                            $_GET = array_merge($_GET,$this->curRoute->getParams());
+                        }
+                        $class_instance = new $target();
+                        call_user_func_array(array($target,$action),array());
+                    }
+                } else {
+                    print "request method no validate";
                 }
-                $class_instance = new $target();
-                call_user_func_array(array($target,$action),array());
+            } else {
+                print 'Content Type no accepted';
             }
         } else {
             // to 404 page

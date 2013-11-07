@@ -17,6 +17,7 @@ class Route
     private $name;
 
     private $request_uri;
+
     /**
      * request parameters
      * @var

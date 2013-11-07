@@ -24,7 +24,7 @@ $configs = array(
         "uri" => "/user/:id",
         "target" => "UserAction",
         "action" => "get_user",
-        "method" => "GET",
+        "method" => "DELETE",
         "name" => "user",
         "filters" => array()
     ),
@@ -33,7 +33,7 @@ $configs = array(
         "uri" => "/user",
         "target" => "UserAction",
         "action" => "get_users",
-        "method" => "GET",
+        "method" => "POST",
         "name" => "users",
         "filters" => array()
     ),
