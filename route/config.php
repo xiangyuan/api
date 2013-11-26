@@ -33,7 +33,7 @@ $configs = array(
         "uri" => "/user",
         "target" => "UserAction",
         "action" => "get_users",
-        "method" => "POST",
+        "method" => "GET",
         "name" => "users",
         "filters" => array()
     ),
@@ -50,6 +50,19 @@ $configs = array(
         'action'=>'short_url',
         'method'=>'GET',
         'name'=>'short_url',
+    ),
+     array(
+         'uri'=>"/recommendApp/:system",
+         'target'=>'UserAction',
+         'action'=>'recommend_app',
+         'method'=>'GET',
+         'name'=>'recommend_app',
+     ),
+    array(
+        'uri'=>"/recommendApp",
+        'target'=>'UserAction',
+        'action'=>'recommend_app',
+        'method'=>'GET',
+        'name'=>'recommend',
     )
-
 );

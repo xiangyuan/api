@@ -78,7 +78,6 @@ class Router
     {
         $url_path = $_SERVER["REQUEST_URI"];
         $method = $_SERVER["REQUEST_METHOD"];
-
         if(($pos = strpos($url_path,"?")) !== false) {
             $url_path = substr($url_path,0,$pos);
         }
@@ -86,12 +85,11 @@ class Router
             // execute method
             $rmethod = $this->curRoute->getMethod();
             $headers = getallheaders();
-            $contentType = $headers["Content-Type"];
+            $contentType = $headers["Accept"];
             if(strcmp($contentType,'application/json') == 0) {
 //                parse_str(file_get_contents("php://input"),$post_vars);
 //                print_r($post_vars);
                 $datas = json_decode(file_get_contents("php://input"));
-//                print_r(get_object_vars($datas));exit;
                 if(strcmp($method,$rmethod) == 0) {
                     if(strcmp($method,'GET') == 0) {
                         $str = $_SERVER['QUERY_STRING'];
@@ -118,14 +116,14 @@ class Router
                         call_user_func_array(array($target,$action),array());
                     }
                 } else {
-                    print "request method no validate";
+                    echo "{\"code\":\"-1\",\"msg\":\"request method no validate\"}";
                 }
             } else {
-                print 'Content Type no accepted';
+                echo "{\"code\":\"-2\",\"msg\":\"Accept should be Accept:application/json\"}";
             }
         } else {
             // to 404 page
-            print 'Notfound action';
+            echo "{\"code\":\"-3\",\"msg\":\"request path not exists\"}";
         }
     }
 
