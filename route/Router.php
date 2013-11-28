@@ -21,7 +21,7 @@ class Router
 
     public $curRoute;
 
-    private $baseURL = '/api';
+    private $baseURL = '';
 
     /**
      * default request methods

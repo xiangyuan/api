@@ -51,18 +51,56 @@ $configs = array(
         'method'=>'GET',
         'name'=>'short_url',
     ),
+    //app recommend
      array(
-         'uri'=>"/recommendApp/:system",
+         'uri'=>"/apps/:platform",
          'target'=>'UserAction',
          'action'=>'recommend_app',
          'method'=>'GET',
          'name'=>'recommend_app',
      ),
     array(
-        'uri'=>"/recommendApp",
+        'uri'=>"/apps/:platform/:page",
+        'target'=>'UserAction',
+        'action'=>'recommend_app',
+        'method'=>'GET',
+        'name'=>'recommend_app_page',
+    ),
+    array(
+        'uri'=>"/apps",
         'target'=>'UserAction',
         'action'=>'recommend_app',
         'method'=>'GET',
         'name'=>'recommend',
+    ),
+    //marray registry
+    array(
+        'uri'=>"/dengji/:city",
+        'target'=>'UserAction',
+        'action'=>'marry_registry',
+        'method'=>'GET',
+        'name'=>'marry_registry',
+    ),
+    array(
+        'uri'=>"/dengji",
+        'target'=>'UserAction',
+        'action'=>'marry_registry',
+        'method'=>'GET',
+        'name'=>'marry',
+    ),
+    //黄道吉日
+    array(
+        'uri'=>"/jiri/:year/:month",
+        'target'=>'UserAction',
+        'action'=>'marry_jiri',
+        'method'=>'GET',
+        'name'=>'marry_jiri',
+    ),
+    array(
+        'uri'=>"/jiri",
+        'target'=>'UserAction',
+        'action'=>'marry_jiri',
+        'method'=>'GET',
+        'name'=>'marry_jiri_param',
     )
 );
